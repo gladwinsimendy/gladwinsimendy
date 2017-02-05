@@ -11,7 +11,7 @@
  
 # Import the modules needed to run the script.
 import sys, os
-#from reportlab.pdfgen import canvas
+from reportlab.pdfgen import canvas
  
 #dictionary to store movie details
 movie_details = {}
