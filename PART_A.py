@@ -11,7 +11,7 @@
  
 # Import the modules needed to run the script.
 import sys, os
-from reportlab.pdfgen import canvas
+#from reportlab.pdfgen import canvas
  
 #dictionary to store movie details
 movie_details = {}
@@ -60,12 +60,14 @@ def exportFunc(fileFormat):
         obj.drawString(50,630,'Movie Actor: {}'.format(movie_details['actor']))
         obj.drawString(50,600,'Movie Genre: {}'.format(movie_details['genre']))
         obj.drawString(50,570,"------")
-        obj.save()
+        #obj.save()
+        find_methodMatch(obj, 'save')()
     elif fileFormat == '2':
         print("Exporting to Plain Text file")
         obj = open('movie_details.txt','w')
         fillObject(obj)
-        obj.close()
+        find_methodMatch(obj, 'close')()
+        #obj.close()
     main_menu()
     return
 
@@ -81,13 +83,14 @@ def export_toPlaintext():
 
 # Fill the details
 def fillObject(obj):
-    obj.write('\n ------ \n')
-    obj.write('Movie Name: {}\n'.format(movie_details['name']))
-    obj.write('Movie Run Time: {}\n'.format(movie_details['runtime']))
-    obj.write('Movie Language: {}\n'.format(movie_details['lang']))
-    obj.write('Movie Actor: {}\n'.format(movie_details['actor']))
-    obj.write('Movie Genre: {}\n'.format(movie_details['genre']))
-    obj.write(' ------ \n')
+    #obj.write('\n ------ \n')
+    find_methodMatch(obj, 'write')('\n ------ \n')
+    find_methodMatch(obj, 'write')('Movie Name: {}\n'.format(movie_details['name']))
+    find_methodMatch(obj, 'write')('Movie Run Time: {}\n'.format(movie_details['runtime']))
+    find_methodMatch(obj, 'write')('Movie Language: {}\n'.format(movie_details['lang']))
+    find_methodMatch(obj, 'write')('Movie Actor: {}\n'.format(movie_details['actor']))
+    find_methodMatch(obj, 'write')('Movie Genre: {}\n'.format(movie_details['genre']))
+    find_methodMatch(obj, 'write')(' ------ \n')
 
 
 # ==============
