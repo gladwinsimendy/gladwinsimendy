@@ -34,14 +34,33 @@ def get_movie_details():
     export_menu()
     return
 
+# Automatically find matching func and return attr
+def find_methodMatch(object, functionality):
+    print ('\n* Methods *')
+    for names in dir(object):
+        attr = getattr(object,names)
+        if callable(attr):
+                keyword_list = functionality.split()
+                if all(x in str(attr.__doc__) for x in keyword_list) is True:
+                    print("Found match - ", names)
+                    break
+                else:
+                    attr = None
+    return attr
 
+# Common function to export to specific format
 def exportFunc(fileFormat):
     if fileFormat == '1':
-        '''pdfWriter = PyPDF2.PdfFileWriter()
-        obj = open('movie_details.pdf','wb')
-        fillObject(obj)
-        pdfWriter.write(obj)
-        obj.close()'''
+        print("Exporting to PDF")
+        obj = canvas.Canvas("movie_details.pdf")
+        obj.drawString(50,750,"------")
+        obj.drawString(50,720,'Movie Name: {}'.format(movie_details['name']))
+        obj.drawString(50,690,'Movie Run Time: {}'.format(movie_details['runtime']))
+        obj.drawString(50,660,'Movie Language: {}'.format(movie_details['lang']))
+        obj.drawString(50,630,'Movie Actor: {}'.format(movie_details['actor']))
+        obj.drawString(50,600,'Movie Genre: {}'.format(movie_details['genre']))
+        obj.drawString(50,570,"------")
+        obj.save()
     elif fileFormat == '2':
         print("Exporting to Plain Text file")
         obj = open('movie_details.txt','w')
@@ -50,23 +69,17 @@ def exportFunc(fileFormat):
     main_menu()
     return
 
+# export to PDF
 def export_toPDF():
-    print("Exporting to PDF")
-    c = canvas.Canvas("movie_details.pdf")
-    c.drawString(50,750,"------")
-    c.drawString(50,720,'Movie Name: {}'.format(movie_details['name']))
-    c.drawString(50,690,'Movie Run Time: {}'.format(movie_details['runtime']))
-    c.drawString(50,660,'Movie Language: {}'.format(movie_details['lang']))
-    c.drawString(50,630,'Movie Actor: {}'.format(movie_details['actor']))
-    c.drawString(50,600,'Movie Genre: {}'.format(movie_details['genre']))
-    c.drawString(50,570,"------")
-    c.save()
+    exportFunc('2')
     return
 
+# export to Plain Text
 def export_toPlaintext():
     exportFunc('2')
     return
 
+# Fill the details
 def fillObject(obj):
     obj.write('\n ------ \n')
     obj.write('Movie Name: {}\n'.format(movie_details['name']))
